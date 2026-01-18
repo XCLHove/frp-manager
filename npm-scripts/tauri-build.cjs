@@ -7,6 +7,7 @@ const TAURI_SIGNING_PRIVATE_KEY = process.env.TAURI_SIGNING_PRIVATE_KEY || getTa
 const TAURI_SIGNING_PRIVATE_KEY_PASSWORD = 'frp-manager'
 const currentVersion = getCurrentVersion()
 
+fs.rmSync(path.resolve(PROJECT_DIR, 'src-tauri/target/release/resources/frp-doc'), { recursive: true, force: true })
 child_process.execSync('npm run tauri build', {
   stdio: 'inherit',
   cwd: PROJECT_DIR,

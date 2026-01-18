@@ -59,7 +59,7 @@ async function downloadAndInstall() {
   currentDownLoadSize.value = 0
   downloading.value = true
   update
-    .download((progress) => {
+    .downloadAndInstall((progress) => {
       if (progress.event === 'Started') {
         downloading.value = true
         totalDownloadSize.value = progress.data.contentLength as number
