@@ -1,0 +1,316 @@
+<!doctype html>
+<html itemscope itemtype="http://schema.org/WebPage" lang="zh-cn" class="no-js">
+  <head>
+	<meta name="generator" content="Hugo 0.133.1">
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="alternate" type="application/rss&#43;xml" href="/zh-cn/index.xml">
+<meta name="robots" content="index, follow">
+
+
+<link rel="shortcut icon" href="/favicons/favicon.ico" >
+<link rel="apple-touch-icon" href="/favicons/apple-touch-icon-180x180.png" sizes="180x180">
+<link rel="icon" type="image/png" href="/favicons/favicon-16x16.png" sizes="16x16">
+<link rel="icon" type="image/png" href="/favicons/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/favicons/android-36x36.png" sizes="36x36">
+<link rel="icon" type="image/png" href="/favicons/android-48x48.png" sizes="48x48">
+<link rel="icon" type="image/png" href="/favicons/android-72x72.png" sizes="72x72">
+<link rel="icon" type="image/png" href="/favicons/android-96x96.png" sizes="96x96">
+<link rel="icon" type="image/png" href="/favicons/android-144x144.png" sizes="144x144">
+<link rel="icon" type="image/png" href="/favicons/android-192x192.png" sizes="192x192">
+
+<title>frp</title>
+<meta name="description" content="frp official website">
+<meta property="og:url" content="/zh-cn/">
+  <meta property="og:site_name" content="frp">
+  <meta property="og:title" content="frp">
+  <meta property="og:description" content="简单、高效的内网穿透工具 起步 GITHUB frp 支持多种代理类型以及 P2P 通信，为不同场景下的需求提供丰富的解决方案。
+frp 采用 C/S 模式，将服务端部署在具有公网 IP 的机器上，客户端部署在内网或防火墙内的机器上，通过访问暴露在服务器上的端口，反向代理到处于内网的服务。在此基础上，frp 支持 TCP, UDP, HTTP, HTTPS 等多种协议，提供了加密、压缩，身份认证，代理限速，负载均衡等众多能力。此外，还可以通过 xtcp 实现 P2P 通信。下载 从 Github Release 页面下载最新版本。
+欢迎参与贡献! 在 Github 上提交 Issue 和 Pull Request。
+更多
+交流 付费加入知识星球兴趣圈 frp 寻求更多帮助。
+更多">
+  <meta property="og:locale" content="zh_cn">
+  <meta property="og:type" content="website">
+
+  <meta itemprop="name" content="frp">
+  <meta itemprop="description" content="简单、高效的内网穿透工具 起步 GITHUB frp 支持多种代理类型以及 P2P 通信，为不同场景下的需求提供丰富的解决方案。
+frp 采用 C/S 模式，将服务端部署在具有公网 IP 的机器上，客户端部署在内网或防火墙内的机器上，通过访问暴露在服务器上的端口，反向代理到处于内网的服务。在此基础上，frp 支持 TCP, UDP, HTTP, HTTPS 等多种协议，提供了加密、压缩，身份认证，代理限速，负载均衡等众多能力。此外，还可以通过 xtcp 实现 P2P 通信。下载 从 Github Release 页面下载最新版本。
+欢迎参与贡献! 在 Github 上提交 Issue 和 Pull Request。
+更多
+交流 付费加入知识星球兴趣圈 frp 寻求更多帮助。
+更多">
+  <meta itemprop="dateModified" content="2025-03-26T11:44:04+08:00">
+  <meta itemprop="wordCount" content="43">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="frp">
+  <meta name="twitter:description" content="简单、高效的内网穿透工具 起步 GITHUB frp 支持多种代理类型以及 P2P 通信，为不同场景下的需求提供丰富的解决方案。
+frp 采用 C/S 模式，将服务端部署在具有公网 IP 的机器上，客户端部署在内网或防火墙内的机器上，通过访问暴露在服务器上的端口，反向代理到处于内网的服务。在此基础上，frp 支持 TCP, UDP, HTTP, HTTPS 等多种协议，提供了加密、压缩，身份认证，代理限速，负载均衡等众多能力。此外，还可以通过 xtcp 实现 P2P 通信。下载 从 Github Release 页面下载最新版本。
+欢迎参与贡献! 在 Github 上提交 Issue 和 Pull Request。
+更多
+交流 付费加入知识星球兴趣圈 frp 寻求更多帮助。
+更多">
+
+
+
+
+<link rel="preload" href="/scss/main.min.d093e3ad0a03b465f821568aa483a85a582d17b7bf93895ce147736c5beafd9a.css" as="style">
+<link href="/scss/main.min.d093e3ad0a03b465f821568aa483a85a582d17b7bf93895ce147736c5beafd9a.css" rel="stylesheet" integrity="">
+
+<script
+  src="/js/jquery-3.7.1.min.js"
+  integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+  crossorigin="anonymous"></script>
+<script
+  src="/js/lunr-2.3.9.min.js"
+  integrity="sha384-203J0SNzyqHby3iU6hzvzltrWi/M41wOP5Gu+BiJMz5nwKykbkUx8Kp7iti0Lpli"
+  crossorigin="anonymous"></script>
+<script>
+var _hmt = _hmt || [];
+(function() {
+      var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?3e71b775dd51aa4d6720c9f6e0dca126";
+          var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+  </head>
+  <body class="td-home">
+    <header>
+      <nav class="td-navbar js-navbar-scroll td-navbar-cover" data-bs-theme="dark">
+<div class="container-fluid flex-column flex-md-row">
+  <a class="navbar-brand" href="/zh-cn/"><span class="navbar-brand__logo navbar-logo"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 196 196"><path d="M0 0C1.55372433 1.34031496 3.09552869 2.69457421 4.625 4.0625c.82886719.68707031 1.65773437 1.37414062 2.51171875 2.08203125C25.42258854 21.68612043 36.54980032 44.43390409 39.3125 68.125c2.07030459 26.82769694-4.71759167 51.88460621-21.6875 72.9375C16.95984375 141.89265625 16.2946875 142.7228125 15.609375 143.578125-.48954121 162.53907075-23.36088313 173.85843847-47.9453125 176.78515625-71.93322964 178.72495365-97.49538979 173.22783488-116.75 158.125-118.30372433 156.78468504-119.84552869 155.43042579-121.375 154.0625-122.20386719 153.37542969-123.03273437 152.68835938-123.88671875 151.98046875-142.17258854 136.43887957-153.29980032 113.69109591-156.0625 90-158.13280459 63.17230306-151.34490833 38.11539379-134.375 17.0625-133.70984375 16.23234375-133.0446875 15.4021875-132.359375 14.546875-116.26045879-4.41407075-93.38911687-15.73343847-68.8046875-18.66015625-44.81677036-20.59995365-19.25461021-15.10283488.0.0z" fill="#307fec" transform="translate(156.375,18.9375)"/><path d="M0 0C9.14866886.037533 17.22012512 2.42754171 25.875 5.3125 25.24816224 9.20323238 24.06490291 12.41180682 22.40625 15.98046875 21.91769531 17.03814453 21.42914063 18.09582031 20.92578125 19.18554688 20.41402344 20.27931641 19.90226562 21.37308594 19.375 22.5 18.86324219 23.60537109 18.35148437 24.71074219 17.82421875 25.84960938 14.22879464 33.60491071 14.22879464 33.60491071 12.875 36.3125c6.6.0 13.2.0 20 0-2.74311757 8.2293527-5.81983443 14.5072504-10 22-6.6.0-13.2.0-20 0-.66 1.98-1.32 3.96-2 6C-.30574675 66.89295828-1.51012196 69.4485972-2.75 72-7.20837762 81.30592927-11.1713474 90.78137319-15.125 100.3125c-11.55.0-23.1.0-35 0 1.12511809-6.75070855 1.12511809-6.75070855 2.92578125-10.4609375C-46.81443359 89.04976563-46.42964844 88.24796875-46.03320312 87.421875-45.63037109 86.60203125-45.22753906 85.7821875-44.8125 84.9375-44.42126953 84.12539062-44.03003906 83.31328125-43.62695312 82.4765625c1.48804651-3.07973806 2.98287133-6.15404921 4.54638671-9.19628906C-37.35389762 69.91812423-35.79432282 66.56321047-34.42578125 63.0390625-31.06119644 54.44632958-27.11915997 46.09069224-23.3125 37.6875c1.57027085-3.47078555 3.13906321-6.94223608 4.70703125-10.4140625C-18.22574921 26.43367371-17.84602966 25.59390991-17.45480347 24.72869873c2.79794821-6.20059747 5.53869159-12.4246724 8.22062683-18.67636108C-6.76291797.33468549-6.2733019.13332521.0.0z" fill="#fcfdfe" transform="translate(86.125,50.6875)"/><path d="M0 0C5.49110072-.07550699 10.98188377-.12922511 16.47338867-.16479492c1.85877765-.01486511 3.71752171-.03516313 5.57617188-.06152344C56.20891765-.69780069 56.20891765-.69780069 69 7 69.88558594 7.51433594 69.88558594 7.51433594 70.7890625 8.0390625 73.62173603 9.79773659 75.12383176 11.18574763 77 14c.265625 2.92578125.265625 2.92578125.25 6.3125C77.25773437 21.97732422 77.25773437 21.97732422 77.265625 23.67578125 77 27 77 27 75 33c-11.55.0-23.1.0-35 0C40.33 31.02 40.66 29.04 41 27 41.92939473 18.83651171 41.92939473 18.83651171 39 11.5 30.21072208 4.17560173 20.01523416 2.92347445 8.9375 1.875c-.86560547-.08636719-1.73121094-.17273437-2.62304688-.26171875C4.21011156 1.40400971 2.10511876 1.20130332.0 1 0 .67.0.34.0.0z" fill="#f8fafe" transform="translate(83,45)"/></svg></span><span class="navbar-brand__name">frp</span></a>
+  <div class="td-navbar-nav-scroll ms-md-auto" id="main_navbar">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="/zh-cn/docs/"><span>文档</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/zh-cn/release/"><span>版本历史</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="https://github.com/fatedier/frp" target="_blank" rel="noopener"><i class='fab fa-github'></i><span>Github</span></a>
+      </li>
+      <li class="nav-item dropdown d-none d-lg-block">
+        <div class="dropdown">
+  <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">中文</a>
+  <ul class="dropdown-menu">
+    <li><a class="dropdown-item" href="/en/">English</a></li>
+    </ul>
+</div></li>
+      <li class="td-light-dark-menu nav-item dropdown">
+        <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
+  <symbol id="check2" viewBox="0 0 16 16">
+    <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
+  </symbol>
+  <symbol id="circle-half" viewBox="0 0 16 16">
+    <path d="M8 15A7 7 0 1 0 8 1v14zm0 1A8 8 0 1 1 8 0a8 8 0 0 1 0 16z"/>
+  </symbol>
+  <symbol id="moon-stars-fill" viewBox="0 0 16 16">
+    <path d="M6 .278a.768.768 0 0 1 .08.858 7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278z"/>
+    <path d="M10.794 3.148a.217.217 0 0 1 .412 0l.387 1.162c.173.518.579.924 1.097 1.097l1.162.387a.217.217 0 0 1 0 .412l-1.162.387a1.734 1.734 0 0 0-1.097 1.097l-.387 1.162a.217.217 0 0 1-.412 0l-.387-1.162A1.734 1.734 0 0 0 9.31 6.593l-1.162-.387a.217.217 0 0 1 0-.412l1.162-.387a1.734 1.734 0 0 0 1.097-1.097l.387-1.162zM13.863.099a.145.145 0 0 1 .274 0l.258.774c.115.346.386.617.732.732l.774.258a.145.145 0 0 1 0 .274l-.774.258a1.156 1.156 0 0 0-.732.732l-.258.774a.145.145 0 0 1-.274 0l-.258-.774a1.156 1.156 0 0 0-.732-.732l-.774-.258a.145.145 0 0 1 0-.274l.774-.258c.346-.115.617-.386.732-.732L13.863.1z"/>
+  </symbol>
+  <symbol id="sun-fill" viewBox="0 0 16 16">
+    <path d="M8 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z"/>
+  </symbol>
+</svg>
+
+<button class="btn btn-link nav-link dropdown-toggle d-flex align-items-center"
+        id="bd-theme"
+        type="button"
+        aria-expanded="false"
+        data-bs-toggle="dropdown"
+        data-bs-display="static"
+        aria-label="Toggle theme (auto)">
+  <svg class="bi my-1 theme-icon-active"><use href="#circle-half"></use></svg>
+</button>
+<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="bd-theme-text">
+  <li>
+    <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="light" aria-pressed="false">
+      <svg class="bi me-2 opacity-50"><use href="#sun-fill"></use></svg>
+      Light
+      <svg class="bi ms-auto d-none"><use href="#check2"></use></svg>
+    </button>
+  </li>
+  <li>
+    <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="dark" aria-pressed="false">
+      <svg class="bi me-2 opacity-50"><use href="#moon-stars-fill"></use></svg>
+      Dark
+      <svg class="bi ms-auto d-none"><use href="#check2"></use></svg>
+    </button>
+  </li>
+  <li>
+    <button type="button" class="dropdown-item d-flex align-items-center active" data-bs-theme-value="auto" aria-pressed="true">
+      <svg class="bi me-2 opacity-50"><use href="#circle-half"></use></svg>
+      Auto
+      <svg class="bi ms-auto d-none"><use href="#check2"></use></svg>
+    </button>
+  </li>
+</ul>
+
+      </li>
+      </ul>
+  </div>
+  <div class="d-none d-lg-block">
+    <div class="td-search td-search--offline">
+  <div class="td-search__icon"></div>
+  <input
+    type="search"
+    class="td-search__input form-control"
+    placeholder="站内搜索…"
+    aria-label="站内搜索…"
+    autocomplete="off"
+    
+    data-offline-search-index-json-src="/offline-search-index.a23c269245e3cd3fcd402c1814cbf432.json"
+    data-offline-search-base-href="/"
+    data-offline-search-max-results="10"
+  >
+</div>
+  </div>
+</div>
+</nav>
+    </header>
+    <div class="container-fluid td-default td-outer">
+      <main role="main" class="td-main">
+        
+
+
+<section id="td-cover-block-0" class="row td-cover-block td-cover-block--height-full js-td-cover td-overlay td-overlay--dark -bg-dark">
+  <div class="col-12">
+    <div class="container td-overlay__inner">
+      <div class="text-center">
+        <h1 class="display-1 mt-0 mt-md-5 pb-4">简单、高效的内网穿透工具</h1>
+        
+        <div class="pt-3 lead">
+          
+              
+<div class="mx-auto">
+	<a class="btn btn-lg btn-primary mr-3 mb-4" href="/zh-cn/docs/">
+		    起步 <i class="fas fa-arrow-alt-circle-right ml-2"></i>
+	</a>
+	<a class="btn btn-lg btn-secondary mr-3 mb-4" href="https://github.com/fatedier/frp">
+		GITHUB <i class="fab fa-github ml-2 "></i>
+	</a>
+	<p class="lead mt-5">frp 支持多种代理类型以及 P2P 通信，为不同场景下的需求提供丰富的解决方案。</p>
+	
+	
+	
+	<a class="btn btn-link text-info" href="#td-block-1" aria-label="更多"><i class="fa-solid fa-circle-chevron-down" style="font-size: 400%"></i></a>
+
+</div>
+
+          
+        </div>
+      </div>
+    </div>
+  </div>
+  
+</section>
+
+
+
+<div><a id="td-block-1" class="td-offset-anchor"></a></div>
+<section class="row td-box td-box--primary position-relative td-box--height-auto">
+<div class="col-12">
+<div class="container text-center td-arrow-down">
+<div class="h4 mb-0">
+
+
+frp 采用 C/S 模式，将服务端部署在具有公网 IP 的机器上，客户端部署在内网或防火墙内的机器上，通过访问暴露在服务器上的端口，反向代理到处于内网的服务。
+在此基础上，frp 支持 TCP, UDP, HTTP, HTTPS 等多种协议，提供了加密、压缩，身份认证，代理限速，负载均衡等众多能力。此外，还可以通过 xtcp 实现 P2P 通信。
+
+</div>
+</div>
+</div>
+</section>
+
+
+<div><a id="td-block-2" class="td-offset-anchor"></a></div>
+<section class="row td-box td-box--white td-box--height-auto">
+<div class="col">
+<div class="row">
+
+
+<div class="col-lg-4 mb-5 mb-lg-0 text-center">
+<div class="mb-4 h1">
+  <i class="fab fa-app-store-ios"></i>
+</div>
+<h4 class="h3">下载</h4>
+<div class="mb-0">
+<p>从 Github <a href="https://github.com/fatedier/frp/releases">Release</a> 页面下载最新版本。</p>
+
+</div>
+
+</div>
+
+
+
+<div class="col-lg-4 mb-5 mb-lg-0 text-center">
+<div class="mb-4 h1">
+  <i class="fab fa-github"></i>
+</div>
+<h4 class="h3">欢迎参与贡献!</h4>
+<div class="mb-0">
+<p>在 Github 上提交 <a href="https://github.com/fatedier/frp/issues">Issue</a> 和 <a href="https://github.com/fatedier/frp/pulls">Pull Request</a>。</p>
+
+</div>
+<p><a href="https://github.com/fatedier/frp">更多</a></p>
+</div>
+
+
+
+<div class="col-lg-4 mb-5 mb-lg-0 text-center">
+<div class="mb-4 h1">
+  <i class="fab fa-weixin"></i>
+</div>
+<h4 class="h3">交流</h4>
+<div class="mb-0">
+<p>付费加入知识星球兴趣圈 <a href="https://t.zsxq.com/eUvBMrZ">frp</a> 寻求更多帮助。</p>
+
+</div>
+<p><a href="https://t.zsxq.com/eUvBMrZ">更多</a></p>
+</div>
+
+</div>
+</div>
+</section>
+
+
+
+
+      </main>
+      <footer class="td-footer row d-print-none">
+  <div class="container-fluid">
+    <div class="row mx-md-2">
+      <div class="td-footer__left col-6 col-sm-4 order-sm-1">
+        
+      </div><div class="td-footer__right col-6 col-sm-4 order-sm-3">
+        <ul class="td-footer__links-list">
+  
+  <li class="td-footer__links-item" data-bs-toggle="tooltip" title="GitHub" aria-label="GitHub">
+    <a target="_blank" rel="noopener" href="https://github.com/fatedier/frp" aria-label="GitHub">
+      <i class="fab fa-github"></i>
+    </a>
+  </li>
+  
+</ul>
+
+      </div><div class="td-footer__center col-12 col-sm-4 py-2 order-sm-2">
+        <span class="td-footer__copyright">&copy;
+    2025
+    <span class="td-footer__authors">The frp Authors</span></span><span class="td-footer__all_rights_reserved">保留所有权利</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <script src="/js/main.min.f72d00502781aaf278a14088eb2356b1ba2a05ad698a0c43fe86314d74ceab56.js" integrity="sha256-9y0AUCeBqvJ4oUCI6yNWsboqBa1pigxD/oYxTXTOq1Y=" crossorigin="anonymous"></script>
+<script defer src="/js/click-to-copy.min.73478a7d4807698aed7e355eb23f9890ca18fea3158604c8471746d046702bad.js" integrity="sha256-c0eKfUgHaYrtfjVesj&#43;YkMoY/qMVhgTIRxdG0EZwK60=" crossorigin="anonymous"></script>
+<script src='/js/tabpane-persist.js'></script>
+
+  </body>
+</html>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>HTTP &amp; HTTPS on frp</title>
+    <link>/zh-cn/docs/features/http-https/</link>
+    <description>Recent content in HTTP &amp; HTTPS on frp</description>
+    <generator>Hugo</generator>
+    <language>zh-cn</language>
+    <atom:link href="/zh-cn/docs/features/http-https/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>修改 HTTP 请求 Header</title>
+      <link>/zh-cn/docs/features/http-https/header/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>/zh-cn/docs/features/http-https/header/</guid>
+      <description>修改 Host Header 通常情况下 frp 不会修改转发的任何数据。但有一些后端服务会根据 HTTP 请求 header 中的 Host 字段来展现不同的网站，例如 nginx 的虚拟主机服务，启用 Host Header 的修改功能可以动态修改 HTTP 请求中的 Host 字段。需要注意的是，该功能仅限于 HTTP 类型的代理。&#xA;# frpc.toml [[proxies]] name = &amp;#34;web&amp;#34; type = &amp;#34;http&amp;#34; localPort = 80 customDomains = [&amp;#34;test.yourdomain.com&amp;#34;] hostHeaderRewrite = &amp;#34;dev.yourdomain.com&amp;#34; 原来 HTTP 请求中的 Host 字段 test.yourdomain.com 转发到后端服务时会被替换为 dev.yourdomain.com。&#xA;设置普通 Header 对于类型为 HTTP 的代理，可以设置在转发中动态添加的 Header 参数&#xA;# frpc.toml [[proxies]] name = &amp;#34;web&amp;#34; type = &amp;#34;http&amp;#34; localPort = 80 customDomains = [&amp;#34;test.</description>
+    </item>
+    <item>
+      <title>设置 BasicAuth 鉴权</title>
+      <link>/zh-cn/docs/features/http-https/auth/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>/zh-cn/docs/features/http-https/auth/</guid>
+      <description>由于所有客户端共用一个 frps 的 HTTP 服务端口，任何知道你的域名和 URL 的人都能访问到你部署在内网的服务，但是在某些场景下需要确保只有限定的用户才能访问。&#xA;frp 支持通过 HTTP Basic Auth 来保护你的 web 服务，使用户需要通过用户名和密码才能访问到你的服务。&#xA;该功能目前仅限于 HTTP 类型的代理，需要在 frpc 的代理配置中添加用户名和密码的设置。&#xA;# frpc.toml [[proxies]] name = &amp;#34;web&amp;#34; type = &amp;#34;http&amp;#34; localPort = 80 customDomains = [&amp;#34;test.yourdomain.com&amp;#34;] httpUser = &amp;#34;abc&amp;#34; httpPassword = &amp;#34;abc&amp;#34; 通过浏览器访问 http://test.yourdomain.com，需要输入配置的用户名和密码才能访问。</description>
+    </item>
+    <item>
+      <title>自定义二级域名</title>
+      <link>/zh-cn/docs/features/http-https/subdomain/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>/zh-cn/docs/features/http-https/subdomain/</guid>
+      <description>在多人同时使用一个 frps 时，通过自定义二级域名的方式来使用会更加方便。&#xA;通过在 frps 的配置文件中配置 subdomainHost，就可以启用该特性。之后在 frpc 的 http、https 类型的代理中可以不配置 customDomains，而是配置一个 subdomain 参数。&#xA;只需要将 *.{subdomainHost} 解析到 frps 所在服务器。之后用户可以通过 subdomain 自行指定自己的 web 服务所需要使用的二级域名，通过 {subdomain}.{subdomainHost} 来访问自己的 web 服务。&#xA;# frps.toml subdomainHost = &amp;#34;frps.com&amp;#34; 将泛域名 *.frps.com 解析到 frps 所在服务器的 IP 地址。&#xA;# frpc.toml [[proxies]] name = &amp;#34;web&amp;#34; type = &amp;#34;http&amp;#34; localPort = 80 subdomain = &amp;#34;test&amp;#34; frps 和 frpc 都启动成功后，通过 test.frps.com 就可以访问到内网的 web 服务。&#xA;注：如果 frps 配置了 subdomainHost，则 customDomains 中不能是属于 subdomainHost 的子域名或者泛域名。</description>
+    </item>
+    <item>
+      <title>路由</title>
+      <link>/zh-cn/docs/features/http-https/route/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>/zh-cn/docs/features/http-https/route/</guid>
+      <description>URL 路由 frp 支持根据请求的 URL 路径路由转发到不同的后端服务。&#xA;通过配置文件中的 locations 字段指定一个或多个 proxy 能够匹配的 URL 前缀(目前仅支持最大前缀匹配，之后会考虑正则匹配)。例如指定 locations = &amp;quot;/news&amp;quot;，则所有 URL 以 /news 开头的请求都会被转发到这个服务。&#xA;# frpc.toml [[proxies]] name = &amp;#34;web01&amp;#34; type = &amp;#34;http&amp;#34; localPort = 80 customDomains = [&amp;#34;web.yourdomain.com&amp;#34;] locations = [&amp;#34;/&amp;#34;] [[proxies]] name = &amp;#34;web02&amp;#34; type = &amp;#34;http&amp;#34; localPort = 81 customDomains = [&amp;#34;web.yourdomain.com&amp;#34;] locations = [&amp;#34;/news&amp;#34;, &amp;#34;/about&amp;#34;] 按照上述的示例配置后，web.yourdomain.com 这个域名下所有以 /news 以及 /about 作为前缀的 URL 请求都会被转发到 web02，其余的请求会被转发到 web01。</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,53 @@
+[package]
+name = "frp-manager"
+version = "0.260118.220927"
+description = "Frp Manager"
+authors = [ "xclhove" ]
+edition = "2021"
+exclude = [ "/logs" ]
+
+[lib]
+name = "frp_manager_lib"
+crate-type = [ "staticlib", "cdylib", "rlib" ]
+
+[build-dependencies.tauri-build]
+version = "2"
+features = [ ]
+
+[dependencies]
+tauri-plugin-opener = "2"
+serde_json = "1"
+lazy_static = "1.5.0"
+warp = "0.3.7"
+tauri-plugin-process = "2"
+r2d2 = "0.8.10"
+r2d2_sqlite = "0.32.0"
+log = "0.4.29"
+log4rs = "1.4.0"
+tauri-plugin-store = "2"
+chrono = "0.4.43"
+
+  [dependencies.uuid]
+  version = "1.19.0"
+  features = [ "v4" ]
+
+  [dependencies.tauri]
+  version = "2"
+  features = [ "image-png", "tray-icon" ]
+
+  [dependencies.serde]
+  version = "1"
+  features = [ "derive" ]
+
+  [dependencies.tokio]
+  version = "1"
+  features = [ "full" ]
+
+  [dependencies.rusqlite]
+  version = "0.38"
+  features = [ "bundled" ]
+
+[target."cfg(not(any(target_os = \"android\", target_os = \"ios\")))".dependencies]
+tauri-plugin-autostart = "2"
+tauri-plugin-single-instance = "2"
+tauri-plugin-updater = "2"

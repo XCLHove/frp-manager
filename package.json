@@ -1,0 +1,50 @@
+{
+  "name": "frp-manager",
+  "private": true,
+  "version": "0.260118.220927",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "tauri": "tauri",
+    "tauri-dev": "node ./npm-scripts/tauri-dev.cjs",
+    "tauri-build": "node ./npm-scripts/tauri-build.cjs",
+    "update-tauri-config-schema": "node ./npm-scripts/update-tauri-config-schema.cjs",
+    "update-version": "node ./npm-scripts/update-version.cjs"
+  },
+  "dependencies": {
+    "@element-plus/icons-vue": "^2.3.2",
+    "@tailwindcss/vite": "^4.1.18",
+    "@tauri-apps/api": "^2",
+    "@tauri-apps/plugin-autostart": "~2.5.1",
+    "@tauri-apps/plugin-opener": "^2",
+    "@tauri-apps/plugin-process": "~2.3.1",
+    "@tauri-apps/plugin-store": "~2.4.2",
+    "@tauri-apps/plugin-updater": "~2.9.0",
+    "@vueuse/core": "^14.1.0",
+    "axios": "^1.13.2",
+    "element-plus": "^2.13.0",
+    "js-base64": "^3.7.8",
+    "monaco-editor": "^0.55.1",
+    "pinia": "^3.0.4",
+    "tailwindcss": "^4.1.18",
+    "vue": "^3.5.13",
+    "vue-router": "^4.6.4",
+    "zod": "^4.3.4"
+  },
+  "devDependencies": {
+    "@iarna/toml": "^2.2.5",
+    "@tauri-apps/cli": "^2",
+    "@types/node": "^25.0.3",
+    "@vitejs/plugin-vue": "^5.2.1",
+    "prettier": "^3.7.4",
+    "sass": "^1.97.1",
+    "typescript": "~5.6.2",
+    "unplugin-auto-import": "^20.3.0",
+    "unplugin-element-plus": "^0.11.2",
+    "unplugin-vue-components": "^30.0.0",
+    "vite": "^6.0.3",
+    "vue-tsc": "^2.1.10"
+  }
+}

@@ -1,0 +1,35 @@
+@use "./element-plus.scss";
+@import "./tailwind.css";
+@import "./font.css";
+
+body, #app {
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    height: 100vh;
+    font-family: 'JetBrainsMono-Regular', sans-serif;
+}
+
+.child-mt-5 {
+    & > *:not(:first-child) {
+        margin-top: 5px;
+    }
+}
+
+.child-mt-10 {
+    & > *:not(:first-child) {
+        margin-top: 10px;
+    }
+}
+
+.child-ml-5 {
+    & > *:not(:first-child) {
+        margin-left: 5px !important;
+    }
+}
+
+.child-ml-10 {
+    & > *:not(:first-child) {
+        margin-left: 10px;
+    }
+}

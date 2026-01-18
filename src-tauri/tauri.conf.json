@@ -1,0 +1,53 @@
+{
+  "$schema": "tauri.conf.schema.json",
+  "productName": "frp-manager",
+  "version": "0.260118.220927",
+  "identifier": "com.xclhove.frp-manager",
+  "build": {
+    "beforeDevCommand": "npm run dev",
+    "devUrl": "http://localhost:11420",
+    "beforeBuildCommand": "npm run build",
+    "frontendDist": "../dist"
+  },
+  "app": {
+    "windows": [
+      {
+        "title": "Frp Manager",
+        "width": 1100,
+        "height": 800
+      }
+    ],
+    "security": {
+      "csp": null
+    }
+  },
+  "bundle": {
+    "active": true,
+    "createUpdaterArtifacts": true,
+    "targets": [
+      "nsis"
+    ],
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ],
+    "resources": {
+      "resources": "resources"
+    }
+  },
+  "plugins": {
+    "updater": {
+      "windows": {
+        "installMode": "basicUi"
+      },
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDcyRUY4NUIzQzJERUMyODAKUldTQXd0N0NzNFh2Y3VUcUsxbTdhREZEY2Y5MElOQ1cxTVN0VGd5N2hBd0ZRRjF5VXFuVzAxYW0K",
+      "endpoints": [
+        "https://gitee.com/xclhove/frp-manager/releases/download/latest/latest-gitee.json",
+        "https://github.com/xclhove/frp-manager/releases/latest/download/latest-github.json"
+      ]
+    }
+  }
+}
