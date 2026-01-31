@@ -1,7 +1,7 @@
 {
   "name": "frp-manager",
   "private": true,
-  "version": "0.260118.223237",
+  "version": "0.260131.122848",
   "type": "module",
   "scripts": {
     "dev": "vite",

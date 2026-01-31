@@ -7,6 +7,7 @@ const newVersion = getNewVersion()
 updateVersionForPackageJson(newVersion)
 updateVersionForTauriConfJson(newVersion)
 updateVersionForCargoToml(newVersion)
+console.log(`The version has been changed to ${newVersion}`)
 
 function getNewVersion() {
   const now = new Date()

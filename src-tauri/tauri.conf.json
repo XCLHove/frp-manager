@@ -1,7 +1,7 @@
 {
   "$schema": "tauri.conf.schema.json",
   "productName": "frp-manager",
-  "version": "0.260118.223237",
+  "version": "0.260131.122848",
   "identifier": "com.xclhove.frp-manager",
   "build": {
     "beforeDevCommand": "npm run dev",
@@ -36,6 +36,15 @@
     ],
     "resources": {
       "resources": "resources"
+    },
+    "windows": {
+      "nsis": {
+        "displayLanguageSelector": true,
+        "languages": [
+          "SimpChinese",
+          "English"
+        ]
+      }
     }
   },
   "plugins": {
