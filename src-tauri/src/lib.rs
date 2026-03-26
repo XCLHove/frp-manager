@@ -11,15 +11,19 @@ use tauri::Manager;
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     file_log::init().expect("Failed to initialize log file");
-    tauri::Builder::default()
+    let mut tauru_builder = tauri::Builder::default()
         .plugin(tauri_plugin_updater::Builder::new().build())
-        .plugin(tauri_plugin_store::Builder::new().build())
-        .plugin(tauri_plugin_single_instance::init(|app, _args, _cwd| {
-            let _ = app
-                .get_webview_window("main")
-                .expect("no main window")
-                .set_focus();
-        }))
+        .plugin(tauri_plugin_store::Builder::new().build());
+    if !tauri::is_dev() {
+        tauru_builder =
+            tauru_builder.plugin(tauri_plugin_single_instance::init(|app, _args, _cwd| {
+                let _ = app
+                    .get_webview_window("main")
+                    .expect("no main window")
+                    .set_focus();
+            }));
+    }
+    tauru_builder
         .plugin(tauri_plugin_autostart::Builder::new().build())
         .plugin(tauri_plugin_process::init())
         .plugin(tauri_plugin_opener::init())

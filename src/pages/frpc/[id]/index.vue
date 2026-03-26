@@ -72,9 +72,11 @@ onMounted(() => {
           }
 
           for (const log of logs) {
-            await Promise.resolve().then(async () => {
-              logsText.value += log.content + '\n'
-              await sleep(1000 / 30)
+            await new Promise<void>((resolve) => {
+              requestIdleCallback(() => {
+                logsText.value += log.content + '\n'
+                resolve()
+              })
             })
           }
         })

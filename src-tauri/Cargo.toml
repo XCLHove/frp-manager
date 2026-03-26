@@ -1,6 +1,6 @@
 [package]
 name = "frp-manager"
-version = "0.260131.122848"
+version = "0.260326.130540"
 description = "Frp Manager"
 authors = [ "xclhove" ]
 edition = "2021"
