@@ -13,7 +13,8 @@ pub fn run() {
     file_log::init().expect("Failed to initialize log file");
     let mut tauru_builder = tauri::Builder::default()
         .plugin(tauri_plugin_updater::Builder::new().build())
-        .plugin(tauri_plugin_store::Builder::new().build());
+        .plugin(tauri_plugin_store::Builder::new().build())
+        .plugin(tauri_plugin_cron::init());
     if !tauri::is_dev() {
         tauru_builder =
             tauru_builder.plugin(tauri_plugin_single_instance::init(|app, _args, _cwd| {
@@ -47,7 +48,8 @@ pub fn run() {
             auto_start::is_enabled_auto_start,
             auto_start::enable_auto_start,
             auto_start::disable_auto_start,
-            number_map::get_and_increment
+            number_map::get_and_increment,
+            frpc::cleanup_frpc_logs
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

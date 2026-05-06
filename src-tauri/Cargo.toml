@@ -26,6 +26,7 @@ log = "0.4.29"
 log4rs = "1.4.0"
 tauri-plugin-store = "2"
 chrono = "0.4.43"
+tauri-plugin-cron = "0.1"
 
   [dependencies.uuid]
   version = "1.19.0"
