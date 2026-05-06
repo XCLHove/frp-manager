@@ -35,3 +35,7 @@ export function stopAllFrpcApi() {
 export function checkFrpcIsRunningApi(request: { id: string }) {
   return invokeWrapper<boolean>('check_frpc_is_running', request)
 }
+
+export function cleanupFrpcLogsApi() {
+  return invokeWrapper<number>('cleanup_frpc_logs')
+}
