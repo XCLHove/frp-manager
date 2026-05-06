@@ -14,7 +14,8 @@ pub fn run() {
     let mut tauru_builder = tauri::Builder::default()
         .plugin(tauri_plugin_updater::Builder::new().build())
         .plugin(tauri_plugin_store::Builder::new().build())
-        .plugin(tauri_plugin_cron::init());
+        .plugin(tauri_plugin_cron::init())
+        .plugin(tauri_plugin_clipboard_manager::init());
     if !tauri::is_dev() {
         tauru_builder =
             tauru_builder.plugin(tauri_plugin_single_instance::init(|app, _args, _cwd| {
