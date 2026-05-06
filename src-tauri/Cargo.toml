@@ -1,6 +1,6 @@
 [package]
 name = "frp-manager"
-version = "0.260326.130540"
+version = "0.260506.232254"
 description = "Frp Manager"
 authors = [ "xclhove" ]
 edition = "2021"
@@ -27,6 +27,7 @@ log4rs = "1.4.0"
 tauri-plugin-store = "2"
 chrono = "0.4.43"
 tauri-plugin-cron = "0.1"
+tauri-plugin-clipboard-manager = "2"
 
   [dependencies.uuid]
   version = "1.19.0"

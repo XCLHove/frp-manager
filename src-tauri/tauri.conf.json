@@ -1,7 +1,7 @@
 {
   "$schema": "tauri.conf.schema.json",
   "productName": "frp-manager",
-  "version": "0.260326.130540",
+  "version": "0.260506.232254",
   "identifier": "com.xclhove.frp-manager",
   "build": {
     "beforeDevCommand": "npm run dev",

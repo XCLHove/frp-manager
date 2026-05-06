@@ -65,6 +65,7 @@
     "updater:allow-download",
     "updater:allow-download-and-install",
     "updater:allow-install",
-    "cron:default"
+    "cron:default",
+    "clipboard-manager:allow-write-text"
   ]
 }
