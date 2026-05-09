@@ -10,23 +10,19 @@ pub struct LogDBManager {
 
 impl LogDBManager {
     pub fn new(db_file_path: &str) -> Result<Self, String> {
-        if std::path::Path::new(&db_file_path).exists() {
-            std::fs::remove_file(db_file_path).map_err(|e| e.to_string())?;
-        }
-
         let connection_manager =
             SqliteConnectionManager::file(db_file_path).with_init(|connection| {
-                // 启用外键和WAL模式以提升性能
                 connection.pragma_update(None, "foreign_keys", &"ON")?;
                 connection.pragma_update(None, "journal_mode", &"WAL")?;
                 connection.pragma_update(None, "synchronous", &"NORMAL")?;
+                connection.pragma_update(None, "busy_timeout", &"5000")?;
                 connection.pragma_update(None, "cache_size", &"-2000")?; // 2MB缓存
                 Ok(())
             });
 
         let connection_pool = Pool::builder()
-            .max_size(20)
-            .min_idle(Some(5))
+            .max_size(5)
+            .min_idle(Some(1))
             .build(connection_manager)
             .map_err(|e| format!("Failed to create connection pool: {}", e))?;
 
