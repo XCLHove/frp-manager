@@ -24,14 +24,10 @@ export function tauriInit() {
 }
 
 async function setupLogCleanupCron() {
-  try {
-    await addCronJob('cleanup-frpc-logs', '0 0 * * * *', () => {
-      cleanupFrpcLogsApi().then((deleted) => {
-        if (deleted > 0) {
-          console.log(`已清理 ${deleted} 条过期 frpc 日志`)
-        }
-      })
-    })
-  } catch (_: any) {
-  }
+  addCronJob('cleanup-frpc-logs', '0 0 * * * *', () => {
+    cleanupFrpcLogsApi({
+      keepCount: 100,
+      id: '',
+    }).catch((_) => {})
+  })
 }

@@ -336,13 +336,24 @@ pub async fn check_frpc_is_running(id: String) -> Result<bool, String> {
 }
 
 #[tauri::command]
-pub async fn cleanup_frpc_logs() -> Result<i64, String> {
+pub async fn cleanup_frpc_logs(keep_count: i32, id: String) -> Result<i64, String> {
     let logs_db = get_logs_db().await?;
+    let log_type = if id.is_empty() {
+        "%".to_string()
+    } else {
+        format!("frpc:{}", id)
+    };
     logs_db.execute(|connection| {
         let deleted = connection
             .execute(
-                "DELETE FROM logs WHERE log_type LIKE 'frpc:%' AND create_time < datetime('now', '-1 hour', 'localtime')",
-                [],
+                "DELETE FROM logs WHERE rowid IN (
+                    SELECT rowid FROM (
+                        SELECT rowid, ROW_NUMBER() OVER (PARTITION BY log_type ORDER BY rowid DESC) AS rn
+                        FROM logs
+                        WHERE log_type LIKE ?2
+                    ) WHERE rn > ?1
+                )",
+                params![keep_count, log_type],
             )
             .map_err(|e| format!("清理 frpc 日志失败: {}", e))?;
         Ok(deleted as i64)

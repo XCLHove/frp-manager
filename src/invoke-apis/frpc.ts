@@ -36,6 +36,11 @@ export function checkFrpcIsRunningApi(request: { id: string }) {
   return invokeWrapper<boolean>('check_frpc_is_running', request)
 }
 
-export function cleanupFrpcLogsApi() {
-  return invokeWrapper<number>('cleanup_frpc_logs')
+export function cleanupFrpcLogsApi(request: {
+  /**要保留的最近日志条数*/
+  keepCount: number
+  /**实例 ID，为空则清理所有实例*/
+  id: string
+}) {
+  return invokeWrapper<number>('cleanup_frpc_logs', request)
 }
