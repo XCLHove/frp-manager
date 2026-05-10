@@ -4,30 +4,22 @@ import { TrayIcon, TrayIconOptions } from '@tauri-apps/api/tray'
 import { showMainWindow } from '@/utils/TauriUtils.ts'
 import { getCurrentWindow } from '@tauri-apps/api/window'
 
-type TrayMenuItem = ReturnType<typeof defineTrayMenuItem>
+type MenuOptionsItem = NonNullable<MenuOptions['items']>[number]
 
-type Exclude<T, E> = T extends E ? never : T
-
-export function defineTrayMenuItem(item: Exclude<MenuOptions['items'], undefined>[number]) {
-  return item
-}
-
-const trayMenuItems: TrayMenuItem[] = []
+const MenuOptionsItemList: Array<MenuOptionsItem> = []
 const modules = import.meta.glob(['./tray-menus/*.ts'], {
   eager: true,
   import: 'default',
 })
-Object.entries(modules).forEach(([path, module]) => {
-  const item = module as ReturnType<typeof defineTrayMenuItem>
-
-  path = path.replace(/^\.\/tray-menus\//g, '')
-  path = path.replace(/\.ts$/g, '')
-
-  // @ts-ignore
-  item.id = item.id || path
-
-  trayMenuItems.push(item)
+Object.entries(modules).forEach(([_path, module]) => {
+  const itemGetter = module as ReturnType<typeof defineMenuOptions>
+  const item = itemGetter()
+  MenuOptionsItemList.push(item)
 })
+
+export function defineMenuOptions(getter: () => MenuOptionsItem) {
+  return getter
+}
 
 export async function createTrayMenu() {
   const currentWindow = getCurrentWindow()
@@ -35,28 +27,32 @@ export async function createTrayMenu() {
 
   const appName = await getName()
 
+  // 移除已有托盘图标，确保 action 回调的 Channel 是新的
+  // 避免 HMR 重载页面后 Rust 端通道失效导致 "Couldn't find callback id" 警告
+  const existingTray = await TrayIcon.getById(appName)
+  if (existingTray) {
+    await TrayIcon.removeById(appName)
+  }
+
   let trayMenu = await Menu.new({
     id: appName,
-    items: trayMenuItems,
+    items: MenuOptionsItemList,
   })
-  let tray = await TrayIcon.getById(appName)
-  if (!tray) {
-    const options: TrayIconOptions = {
-      id: appName,
-      title: appName,
-      tooltip: appName,
-      icon: (await defaultWindowIcon()) as any,
-      action(event) {
-        switch (event.type) {
-          case 'DoubleClick': {
-            showMainWindow()
-            break
-          }
+  const options: TrayIconOptions = {
+    id: appName,
+    title: appName,
+    tooltip: appName,
+    icon: (await defaultWindowIcon()) as any,
+    action(event) {
+      switch (event.type) {
+        case 'DoubleClick': {
+          showMainWindow()
+          break
         }
-      },
-    }
-    tray = await TrayIcon.new(options)
-    await tray.setShowMenuOnLeftClick(false)
+      }
+    },
   }
+  const tray = await TrayIcon.new(options)
+  await tray.setShowMenuOnLeftClick(false)
   await tray.setMenu(trayMenu)
 }

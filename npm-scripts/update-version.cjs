@@ -14,7 +14,7 @@ function getNewVersion() {
   const year = now.getFullYear().toString().substring(2, 4)
   const month = (now.getMonth() + 1).toString().padStart(2, '0')
   const day = now.getDate().toString().padStart(2, '0')
-  const hour = now.getHours().toString().padStart(2, '0')
+  const hour = now.getHours().toString().replace(/^0*/g, '')
   const minute = now.getMinutes().toString().padStart(2, '0')
   const second = now.getSeconds().toString().padStart(2, '0')
   const version = `0.${year}${month}${day}.${hour}${minute}${second}`

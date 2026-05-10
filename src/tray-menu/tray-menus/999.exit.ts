@@ -1,9 +1,9 @@
-import { defineTrayMenuItem } from '@/tray-menu/index.ts'
+import { defineMenuOptions } from '@/tray-menu/index.ts'
 import { exitApp } from '@/utils/TauriUtils.ts'
 
-export default defineTrayMenuItem({
+export default defineMenuOptions(() => ({
   text: '退出',
   action(id) {
     exitApp()
   },
-})
+}))
