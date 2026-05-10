@@ -4,8 +4,7 @@ import { hideMainWindowOnFirstStartUp } from '@/tauri-init/hideMainWindowOnFirst
 import { log_error } from '@/invoke-apis/file-log.ts'
 import { startFrpcOnAppStartUp } from '@/tauri-init/startFrpcOnAppStartUp.ts'
 import { toHomePageOnWindowHide } from '@/tauri-init/toHomePageOnWindowHide.ts'
-import { addCronJob } from 'tauri-plugin-cron'
-import { cleanupFrpcLogsApi } from '@/invoke-apis/frpc.ts'
+import { setupLogCleanupCron } from '@/tauri-init/setupLogCleanupCron.ts'
 
 export function tauriInit() {
   Promise.resolve()
@@ -21,13 +20,4 @@ export function tauriInit() {
       console.error(e)
       log_error(`tauriInit: ${e?.message || e}`)
     })
-}
-
-async function setupLogCleanupCron() {
-  addCronJob('cleanup-frpc-logs', '0 0 * * * *', () => {
-    cleanupFrpcLogsApi({
-      keepCount: 100,
-      id: '',
-    }).catch((_) => {})
-  })
 }
