@@ -50,7 +50,9 @@ pub fn run() {
             auto_start::enable_auto_start,
             auto_start::disable_auto_start,
             number_map::get_and_increment,
-            frpc::cleanup_frpc_logs
+            frpc::cleanup_frpc_logs,
+            frpc::register_frpc_event,
+            frpc::unregister_frpc_event
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

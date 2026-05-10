@@ -3,13 +3,14 @@ use chrono::Local;
 use lazy_static::lazy_static;
 use rusqlite::params;
 use std::{
-    collections::HashMap,
+    collections::{HashMap, HashSet},
     io::{BufRead, BufReader},
     os::windows::process::CommandExt,
     path::Path,
     process::{Child, Command, Stdio},
     sync::Arc,
 };
+use tauri::Emitter;
 use uuid::Uuid;
 
 lazy_static! {
@@ -21,6 +22,8 @@ lazy_static! {
         Arc::new(tokio::sync::Mutex::new(HashMap::new()));
     static ref FRPC_START_TIME_BY_ID: Arc<tokio::sync::Mutex<HashMap<String, String>>> =
         Arc::new(tokio::sync::Mutex::new(HashMap::new()));
+    static ref FRPC_EVENT_LISTENERS: Arc<tokio::sync::Mutex<HashSet<String>>> =
+        Arc::new(tokio::sync::Mutex::new(HashSet::new()));
 }
 
 async fn get_logs_db() -> Result<Arc<LogDBManager>, String> {
@@ -196,12 +199,35 @@ pub async fn query_frpc_logs(id: String, order_number: i32) -> Result<Vec<Logs>,
 }
 
 #[tauri::command]
-pub async fn run_frpc(id: String, binary_file: String, args: String) -> Result<bool, String> {
+pub async fn register_frpc_event(id: String) -> Result<(), String> {
+    FRPC_EVENT_LISTENERS.lock().await.insert(id);
+    Ok(())
+}
+
+#[tauri::command]
+pub async fn unregister_frpc_event(id: String) -> Result<(), String> {
+    FRPC_EVENT_LISTENERS.lock().await.remove(&id);
+    Ok(())
+}
+
+#[tauri::command]
+pub async fn run_frpc(app: tauri::AppHandle, id: String, binary_file: String, args: String) -> Result<bool, String> {
     let frpc_by_id = FRPC_BY_ID.lock().await;
     if frpc_by_id.contains_key(&id) {
         return Ok(false);
     }
     drop(frpc_by_id);
+
+    // 启动前清除该实例的历史日志
+    if let Ok(logs_db) = get_logs_db().await {
+        let log_type = format!("frpc:{}", id);
+        let _ = logs_db.execute(|connection| {
+            connection
+                .execute("DELETE FROM logs WHERE log_type = ?1", params![log_type])
+                .map_err(|e| e.to_string())?;
+            Ok(())
+        });
+    }
 
     let app_dir = get_app_dir()?;
     let frpc_dir = format!("{}/frpc/{}", app_dir, id);
@@ -219,31 +245,42 @@ pub async fn run_frpc(id: String, binary_file: String, args: String) -> Result<b
 
     let create_no_window: u32 = 134217728u32;
     let start_time = Local::now().format("%Y-%m-%d %H:%M:%S").to_string();
-    let frp_client_child = Command::new(&binary_file_path)
+    let mut frp_client_child = Command::new(&binary_file_path)
         .args(run_args.split_whitespace())
         .stdout(Stdio::piped())
         .creation_flags(create_no_window)
         .spawn()
         .map_err(|e| format!("启动 frpc 失败: {}", e))?;
     log_info(format!("启动 frpc: 【{}】({})", id, frp_client_child.id()));
+
+    // 在 Arc 包装前取出 stdout，若失败则立即杀掉已启动的进程
+    let stdout = frp_client_child
+        .stdout
+        .take()
+        .ok_or_else(|| {
+            let _ = frp_client_child.kill();
+            "无法捕获 frpc 的标准输出".to_string()
+        })?;
+
     FRPC_START_TIME_BY_ID
         .lock()
         .await
         .insert(id.clone(), start_time);
+
     let frp_client_child = Arc::new(tokio::sync::Mutex::new(frp_client_child));
-
-    let stdout = {
-        let mut child = frp_client_child.lock().await;
-        child
-            .stdout
-            .take()
-            .ok_or_else(|| "Failed to capture stdout".to_string())?
-    };
-
     let reader = BufReader::new(stdout);
 
-    let logs_db = get_logs_db().await?;
+    let logs_db = match get_logs_db().await {
+        Ok(db) => db,
+        Err(e) => {
+            let mut child = frp_client_child.lock().await;
+            let _ = child.kill();
+            return Err(e);
+        }
+    };
     let frpc_id = id.clone();
+    let cleanup_id = id.clone();
+    let app_for_log = app.clone();
 
     let log_handle = tokio::spawn(async move {
         for line in reader.lines().filter_map(|line| line.ok()) {
@@ -263,6 +300,32 @@ pub async fn run_frpc(id: String, binary_file: String, args: String) -> Result<b
             }) {
                 eprintln!("写入日志失败: {}", e);
             }
+
+            // 发送日志事件
+            if FRPC_EVENT_LISTENERS.lock().await.contains(&frpc_id) {
+                let _ = app_for_log.emit(
+                    &format!("frpc-{}-log", frpc_id),
+                    serde_json::json!({ "content": line }),
+                );
+            }
+        }
+
+        // 进程已退出（stdout 管道关闭），清理全局状态
+        {
+            let mut frpc_by_id = FRPC_BY_ID.lock().await;
+            frpc_by_id.remove(&cleanup_id);
+        }
+        {
+            let mut frpc_start_time_by_id = FRPC_START_TIME_BY_ID.lock().await;
+            frpc_start_time_by_id.remove(&cleanup_id);
+        }
+
+        // 发送进程退出事件
+        if FRPC_EVENT_LISTENERS.lock().await.contains(&cleanup_id) {
+            let _ = app_for_log.emit(
+                &format!("frpc-{}-status", cleanup_id),
+                serde_json::json!({ "running": false }),
+            );
         }
     });
 
@@ -274,6 +337,14 @@ pub async fn run_frpc(id: String, binary_file: String, args: String) -> Result<b
     {
         let mut frpc_log_handle_by_id = FRPC_LOG_HANDLE_BY_ID.lock().await;
         frpc_log_handle_by_id.insert(id.clone(), log_handle);
+    }
+
+    // 发送进程启动事件
+    if FRPC_EVENT_LISTENERS.lock().await.contains(&id) {
+        let _ = app.emit(
+            &format!("frpc-{}-status", id),
+            serde_json::json!({ "running": true }),
+        );
     }
 
     Ok(true)
@@ -331,8 +402,22 @@ pub async fn stop_all_frpc() -> Result<(), String> {
 
 #[tauri::command]
 pub async fn check_frpc_is_running(id: String) -> Result<bool, String> {
-    let frpc_by_id = FRPC_BY_ID.lock().await;
-    Ok(frpc_by_id.contains_key(&id))
+    let mut frpc_by_id = FRPC_BY_ID.lock().await;
+    if let Some(child) = frpc_by_id.get(&id) {
+        let mut child = child.lock().await;
+        match child.try_wait() {
+            Ok(Some(_)) => {
+                // 进程已退出但尚未清理，主动移除
+                drop(child);
+                frpc_by_id.remove(&id);
+                Ok(false)
+            }
+            Ok(None) => Ok(true),
+            Err(_) => Ok(true), // try_wait 调用失败时保守返回 true
+        }
+    } else {
+        Ok(false)
+    }
 }
 
 #[tauri::command]

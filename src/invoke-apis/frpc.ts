@@ -44,3 +44,11 @@ export function cleanupFrpcLogsApi(request: {
 }) {
   return invokeWrapper<number>('cleanup_frpc_logs', request)
 }
+
+export function registerFrpcEventApi(request: { id: string }) {
+  return invokeWrapper<void>('register_frpc_event', request)
+}
+
+export function unregisterFrpcEventApi(request: { id: string }) {
+  return invokeWrapper<void>('unregister_frpc_event', request)
+}

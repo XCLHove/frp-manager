@@ -2,7 +2,7 @@
 import { useRoute } from 'vue-router'
 import useFrpStore from '@/stores/useFrpStore.ts'
 import { storeToRefs } from 'pinia'
-import { computed, defineAsyncComponent, onBeforeMount, onBeforeUnmount, onMounted, ref } from 'vue'
+import { computed, defineAsyncComponent, getCurrentInstance, onBeforeMount, onBeforeUnmount, onMounted, ref } from 'vue'
 import router from '@/router'
 import { dayjs, ElMessage } from 'element-plus'
 import {
@@ -19,8 +19,9 @@ import { useVAnsiHtml } from '@/utils/useVAnsiHtml.ts'
 import { sessionStorageRef } from '@/utils/sessionStorageRef.ts'
 import { CirclePlusFilled, DeleteFilled, EditPen, Refresh, VideoPause, VideoPlay } from '@element-plus/icons-vue'
 import Loading from '@/components/loading/loading.vue'
-import { sleep } from '@/utils/PromiseUtil.ts'
+import { registerFrpcEvent } from '@/utils/frpcEvent.ts'
 
+const currentInstance = getCurrentInstance()
 const { height: windowHeight } = useWindowSize()
 const tabHeight = computed(() => windowHeight.value - 112)
 const vAnsiHtml = useVAnsiHtml()
@@ -60,49 +61,28 @@ onMounted(() => {
   refreshConfig()
 })
 
-onMounted(() => {
-  let timer: null | ReturnType<typeof setTimeout>
-  let stopQuery = false
-  const doQuery = (time = 0) => {
-    timer = setTimeout(() => {
-      queryFrpcLogsApi(queryLogData.value)
-        .then(async (logs) => {
-          if (logs.length > 0) {
-            queryLogData.value.orderNumber = logs[logs.length - 1].order_number
-          }
+onMounted(async () => {
+  await refreshStatus()
+  registerFrpcEvent('status', id, (payload) => {
+    isRunning.value = payload.running as boolean
+  }).then((unlistenFn) => {
+    onBeforeUnmount(unlistenFn, currentInstance)
+  })
 
-          for (const log of logs) {
-            await new Promise<void>((resolve) => {
-              requestIdleCallback(() => {
-                logsText.value += log.content + '\n'
-                resolve()
-              })
-            })
-          }
+  // 初始加载已有日志
+  await queryFrpcLogsApi(queryLogData.value).then(async (logs) => {
+    for (const log of logs) {
+      await new Promise<void>((resolve) => {
+        requestIdleCallback(() => {
+          logsText.value += log.content + '\n'
+          resolve()
         })
-        .finally(() => !stopQuery && doQuery(1000))
-    }, time)
-  }
-  doQuery()
-  onBeforeUnmount(() => {
-    stopQuery = true
-    if (timer !== null) clearTimeout(timer)
+      })
+    }
   })
-})
-
-onMounted(() => {
-  let timer: null | ReturnType<typeof setTimeout>
-  let stopRefresh = false
-  const doRefresh = (time = 0) => {
-    timer = setTimeout(() => {
-      refreshStatus().finally(() => !stopRefresh && doRefresh(1000))
-    }, time)
-  }
-  doRefresh()
-  onBeforeUnmount(() => {
-    stopRefresh = true
-    if (timer !== null) clearTimeout(timer)
-  })
+  registerFrpcEvent('log', id, (payload) => {
+    logsText.value += (payload.content as string) + '\n'
+  }).then((unlistenFn) => onBeforeUnmount(unlistenFn, currentInstance))
 })
 
 async function refreshConfig(showMessage = false) {
