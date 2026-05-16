@@ -2,6 +2,7 @@ import { getCurrentWindow } from '@tauri-apps/api/window'
 import { getAndIncrement } from '@/invoke-apis/number-map.ts'
 import { getTauriStore, storeKey } from '@/utils/tauriStore.ts'
 import { log_info } from '@/invoke-apis/file-log.ts'
+import { simpleNotification } from '@/utils/tauriNotificationUtils.ts'
 
 export async function hideMainWindowOnFirstStartUp() {
   const window = getCurrentWindow()
@@ -13,4 +14,5 @@ export async function hideMainWindowOnFirstStartUp() {
   log_info(`hideOnFirstStartUp: ${hideOnFirstStartUp}`)
   if (!hideOnFirstStartUp) return
   await window.hide()
+  await simpleNotification('已最小化')
 }

@@ -1,6 +1,7 @@
 import { getAllWindows, getCurrentWindow } from '@tauri-apps/api/window'
 import { exit } from '@tauri-apps/plugin-process'
 import { stopAllFrpcApi } from '@/invoke-apis/frpc.ts'
+import { simpleNotification } from '@/utils/tauriNotificationUtils.ts'
 
 export function showMainWindow() {
   return getAllWindows().then((windows) => {
@@ -17,6 +18,7 @@ export async function hideMainWindowOnClose() {
   await currentWindow.onCloseRequested((event) => {
     event.preventDefault()
     currentWindow.hide()
+    simpleNotification('已最小化')
   })
 }
 
