@@ -12,11 +12,9 @@ export async function startFrpcOnAppStartUp() {
   await frpStore.refresh()
   const frpcList = simpleClone(frpStore.frpcList)
 
-  const duRun = (index = 0) => {
-    if (index >= frpcList.length) return
-    const frpc = frpcList[index]
-    if (!frpc.followAppStart) return
-    return runFrpcApi({
+  for (const frpc of frpcList) {
+    if (!frpc.followAppStart) continue
+    await runFrpcApi({
       id: frpc.id,
       args: frpc.startUpArgs,
       binaryFile: frpc.binaryFile,
@@ -28,7 +26,5 @@ export async function startFrpcOnAppStartUp() {
         console.error(e)
         log_error(`startFrpcOnAppStartUp: ${e?.message || e}`)
       })
-      .finally(() => duRun(index + 1))
   }
-  await duRun()
 }
