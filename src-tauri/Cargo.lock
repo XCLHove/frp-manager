@@ -1187,7 +1187,7 @@ dependencies = [
 
 [[package]]
 name = "frp-manager"
-version = "0.260516.153530"
+version = "0.260516.170626"
 dependencies = [
  "chrono",
  "lazy_static",

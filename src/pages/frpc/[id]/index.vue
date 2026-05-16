@@ -187,8 +187,9 @@ async function saveConfig() {
             </div>
             <div class="mt-1">
               <el-table :data="visitors" border :height="windowHeight - 148">
-                <el-table-column label="name" prop="name"></el-table-column>
-                <el-table-column label="type" prop="type" align="center" width="120"></el-table-column>
+                <el-table-column label="name" prop="name" sortable></el-table-column>
+                <el-table-column label="type" prop="type" align="center" width="100" sortable></el-table-column>
+                <el-table-column label="bindPort" prop="bindPort" align="center" width="120" sortable></el-table-column>
                 <el-table-column label="操作" fixed="right" align="center" width="120">
                   <template #default="{ row }">
                     <el-tooltip placement="bottom" effect="light">
@@ -221,9 +222,9 @@ async function saveConfig() {
             </div>
             <div class="mt-1">
               <el-table :data="proxies" border :height="windowHeight - 148">
-                <el-table-column label="name" prop="name"></el-table-column>
-                <el-table-column label="type" prop="type"></el-table-column>
-                <el-table-column label="操作">
+                <el-table-column label="name" prop="name" sortable></el-table-column>
+                <el-table-column label="type" prop="type" align="center" width="100" sortable></el-table-column>
+                <el-table-column label="操作" fixed="right" align="center" width="120">
                   <template #default="{ row }">
                     <el-tooltip placement="bottom" effect="light">
                       <template #default>
