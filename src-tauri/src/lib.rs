@@ -12,6 +12,7 @@ use tauri::Manager;
 pub fn run() {
     file_log::init().expect("Failed to initialize log file");
     let mut tauru_builder = tauri::Builder::default()
+        .plugin(tauri_plugin_notification::init())
         .plugin(tauri_plugin_updater::Builder::new().build())
         .plugin(tauri_plugin_store::Builder::new().build())
         .plugin(tauri_plugin_cron::init())

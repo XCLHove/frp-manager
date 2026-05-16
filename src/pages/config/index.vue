@@ -4,9 +4,12 @@ import { ElMessage } from 'element-plus'
 import { disable, enable, isEnabled } from '@/invoke-apis/auto-start.ts'
 import { getTauriStore, storeKey } from '@/utils/tauriStore.ts'
 import { log_error } from '@/invoke-apis/file-log.ts'
+import { isPermissionGranted, requestPermission } from '@tauri-apps/plugin-notification'
+import { simpleNotification } from '@/utils/tauriNotificationUtils.ts'
 
 const isEnabledAutoStart = ref(false)
 const hideOnFirstStartUp = ref(false)
+const permissionGranted = ref(false)
 
 onMounted(() => {
   init()
@@ -15,6 +18,7 @@ onMounted(() => {
 async function init() {
   await checkAutoStart()
   await checkHideOnFirstStartUp()
+  await checkPermissionGranted()
 }
 
 async function checkAutoStart() {
@@ -69,6 +73,19 @@ async function switchHideOnFirstStartUp() {
     })
     .finally(() => checkHideOnFirstStartUp())
 }
+
+async function checkPermissionGranted() {
+  permissionGranted.value = await isPermissionGranted()
+}
+
+async function doRequestPermission() {
+  if (permissionGranted.value) return
+  await requestPermission()
+  await checkPermissionGranted()
+  if (permissionGranted.value) {
+    await simpleNotification('已授权')
+  }
+}
 </script>
 
 <template>
@@ -91,6 +108,11 @@ async function switchHideOnFirstStartUp() {
           @click="switchHideOnFirstStartUp"
           inline-prompt
         ></el-switch>
+      </el-descriptions-item>
+      <el-descriptions-item label="通知权限">
+        <el-tag :type="permissionGranted ? 'success' : 'info'" @click="doRequestPermission()">
+          {{ permissionGranted ? '已授权' : '未授权(点我授权)' }}
+        </el-tag>
       </el-descriptions-item>
     </el-descriptions>
   </div>
